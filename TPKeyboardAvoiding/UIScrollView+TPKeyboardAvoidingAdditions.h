@@ -11,6 +11,8 @@
 @interface UIScrollView (TPKeyboardAvoidingAdditions)
 - (BOOL)TPKeyboardAvoiding_focusNextTextField;
 - (void)TPKeyboardAvoiding_scrollToActiveTextField;
+-(void)scrollViewMinimallyIntoView:(UIView *)view;
+-(void)setScrollMinimally:(BOOL)scrollMinimally;
 
 - (void)TPKeyboardAvoiding_keyboardWillShow:(NSNotification*)notification;
 - (void)TPKeyboardAvoiding_keyboardWillHide:(NSNotification*)notification;
