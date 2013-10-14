@@ -154,20 +154,9 @@ static const int kStateKey;
     [self setContentOffset:idealOffset animated:YES];
 }
 
--(void)scrollViewMinimallyIntoView:(UIView *)view
-{
-    [UIView animateWithDuration:.3 animations:^{
-        TPKeyboardAvoidingState *state = self.keyboardAvoidingState;
-        CGRect keyboardRect = state.keyboardRect;
-        [self setContentOffset:CGPointMake(self.contentOffset.x,
-                                           [self closestOffsetForView:view withViewingAreaHeight:keyboardRect.origin.y])
-                      animated:YES];
-    }];
-}
-
 -(CGFloat)closestOffsetForView:(UIView *)view withViewingAreaHeight:(CGFloat)space
 {
-    CGFloat visibleMargin = 10.0;
+    CGFloat visibleMargin = 15.0;
     // Convert the rect to get the view's distance from the top of the scrollView.
     CGRect rect = [view convertRect:view.bounds toView:self];
     
