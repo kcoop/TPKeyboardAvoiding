@@ -28,6 +28,14 @@ static const int kStateKey;
 
 @implementation UIScrollView (TPKeyboardAvoidingAdditions)
 
+
+-(CGFloat)TPKeyboardAvoiding_idealOffsetForRect:(CGRect)rect
+{
+    CGFloat keyboardTop = CGRectGetMinY(self.keyboardAvoidingState.keyboardRect);
+    return [self TPKeyboardAvoiding_closestOffsetForRect:rect visibleMargin:0 withViewingAreaHeight: keyboardTop];
+}
+                                       
+
 -(void)setScrollMinimally:(BOOL)scrollMinimally
 {
     self.keyboardAvoidingState.scrollMinimally = scrollMinimally;
@@ -154,12 +162,13 @@ static const int kStateKey;
     [self setContentOffset:idealOffset animated:YES];
 }
 
--(CGFloat)closestOffsetForView:(UIView *)view withViewingAreaHeight:(CGFloat)space
+-(CGFloat)TPKeyboardAvoiding_closestOffsetForView:(UIView *)view withViewingAreaHeight:(CGFloat)space
 {
-    CGFloat visibleMargin = 15.0;
-    // Convert the rect to get the view's distance from the top of the scrollView.
-    CGRect rect = [view convertRect:view.bounds toView:self];
-    
+    return [self TPKeyboardAvoiding_closestOffsetForRect:[view convertRect:view.bounds toView:self] visibleMargin:15.0 withViewingAreaHeight:space];
+}
+
+-(CGFloat)TPKeyboardAvoiding_closestOffsetForRect:(CGRect)rect visibleMargin:(CGFloat)visibleMargin withViewingAreaHeight:(CGFloat)space
+{
     // Set starting offset to that point
     CGFloat rectTop = rect.origin.y - visibleMargin;
     CGFloat rectBottom = rectTop + rect.size.height + visibleMargin;
@@ -239,7 +248,7 @@ static const int kStateKey;
 -(CGFloat)TPKeyboardAvoiding_idealOffsetForView:(UIView *)view withViewingAreaHeight:(CGFloat)viewAreaHeight {
     
     if (self.keyboardAvoidingState.scrollMinimally) {
-        return [self closestOffsetForView:view withViewingAreaHeight:viewAreaHeight];
+        return [self TPKeyboardAvoiding_closestOffsetForView:view withViewingAreaHeight:viewAreaHeight];
     }
     
     // Convert the rect to get the view's distance from the top of the scrollView.

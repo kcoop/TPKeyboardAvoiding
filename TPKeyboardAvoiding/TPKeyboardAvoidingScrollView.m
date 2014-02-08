@@ -12,6 +12,12 @@
 
 @implementation TPKeyboardAvoidingScrollView
 
+// Avoids iOS scrolling erroneously for us when text changes in a UI text field.
+- (void)scrollRectToVisible:(CGRect)rect animated:(BOOL)animated
+{
+    [self setContentOffset:CGPointMake(self.contentOffset.x,[self TPKeyboardAvoiding_idealOffsetForRect:rect]) animated: animated];
+}
+
 #pragma mark - Setup/Teardown
 
 - (void)setup {

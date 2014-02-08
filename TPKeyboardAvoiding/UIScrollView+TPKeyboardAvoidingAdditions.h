@@ -20,4 +20,5 @@
 - (void)TPKeyboardAvoiding_assignTextDelegateForViewsBeneathView:(UIView*)view;
 - (UIView*)TPKeyboardAvoiding_findFirstResponderBeneathView:(UIView*)view;
 -(CGSize)TPKeyboardAvoiding_calculatedContentSizeFromSubviewFrames;
+-(CGFloat)TPKeyboardAvoiding_idealOffsetForRect:(CGRect)rect;
 @end
