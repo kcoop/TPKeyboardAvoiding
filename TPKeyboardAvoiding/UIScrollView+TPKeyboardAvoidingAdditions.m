@@ -276,7 +276,7 @@ static const int kStateKey;
         offset = 0;
     }
     
-    return offset;
+    return offset - self.contentInset.top;
 }
 
 - (void)TPKeyboardAvoiding_initializeView:(UIView*)view {
