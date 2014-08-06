@@ -35,6 +35,14 @@
     [self setup];
 }
 
+-(void)willMoveToSuperview:(UIView *)newSuperview
+{
+    if (!newSuperview) {
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(TPKeyboardAvoiding_assignTextDelegateForViewsBeneathView:) object:self];
+    }
+    [super willMoveToSuperview:newSuperview];
+}
+
 -(void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 #if !__has_feature(objc_arc)
