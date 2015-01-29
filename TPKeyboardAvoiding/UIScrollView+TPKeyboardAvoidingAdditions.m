@@ -280,18 +280,25 @@ static const int kStateKey;
 }
 
 - (void)TPKeyboardAvoiding_initializeView:(UIView*)view {
-    if ( ([view isKindOfClass:[UITextField class]] || [view isKindOfClass:[UITextView class]]) && (![(id)view delegate] || [(id)view delegate] == self) ) {
-        [(id)view setDelegate:self];
-        
-        if ( [view isKindOfClass:[UITextField class]] ) {
+    
+    if ([view isKindOfClass:[UITextView class]]) {
+        UITextView *textView = (UITextView *)view;
+        id<UITextViewDelegate>selfAsDelegate = (id<UITextViewDelegate>)self;
+        if (textView.delegate == NULL || textView.delegate == selfAsDelegate) {
+            textView.delegate = selfAsDelegate;
+        }
+    } else if ([view isKindOfClass:[UITextField class]]) {
+        UITextField *textField = (UITextField *)view;
+        id<UITextFieldDelegate>selfAsDelegate = (id<UITextFieldDelegate>)self;
+        if (textField.delegate == NULL || textField.delegate == selfAsDelegate) {
+            textField.delegate = selfAsDelegate;
             UIView *otherView = nil;
             CGFloat minY = CGFLOAT_MAX;
             [self TPKeyboardAvoiding_findTextFieldAfterTextField:view beneathView:self minY:&minY foundView:&otherView];
-            
             if ( otherView ) {
-                ((UITextField*)view).returnKeyType = UIReturnKeyNext;
+                textField.returnKeyType = UIReturnKeyNext;
             } else {
-                ((UITextField*)view).returnKeyType = UIReturnKeyDone;
+                textField.returnKeyType = UIReturnKeyDone;
             }
         }
     }
